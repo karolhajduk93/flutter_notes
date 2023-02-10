@@ -1,3 +1,4 @@
+import 'dart:developer' as devtools show log;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -63,10 +64,14 @@ class _LoginViewState extends State<LoginView> {
                   email: email,
                   password: password,
                 );
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/notes/',
+                  (route) => false,
+                );
               } on FirebaseAuthException catch (e) {
-                print('user not found');
+                devtools.log('user not found');
               } on Exception catch (e) {
-                print('something fucky' + e.runtimeType.toString());
+                devtools.log('something wrong ${e.runtimeType}');
               }
             },
             child: const Text('Login'),
@@ -74,7 +79,7 @@ class _LoginViewState extends State<LoginView> {
           TextButton(
             onPressed: () {
               Navigator.of(context).pushNamedAndRemoveUntil(
-                '/register',
+                '/register/',
                 (route) => false,
               );
             },
